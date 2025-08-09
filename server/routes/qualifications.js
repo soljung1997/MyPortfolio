@@ -7,14 +7,18 @@ import {
   deleteQualification,
   deleteAllQualifications,
 } from '../controllers/qualificationController.js';
+import { requireSignin, isAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// Public
 router.get('/', getQualifications);
 router.get('/:id', getQualificationById);
-router.post('/', createQualification);
-router.put('/:id', updateQualification);
-router.delete('/:id', deleteQualification);
-router.delete('/', deleteAllQualifications);
+
+// Admin only
+router.post('/', requireSignin, isAdmin, createQualification);
+router.put('/:id', requireSignin, isAdmin, updateQualification);
+router.delete('/:id', requireSignin, isAdmin, deleteQualification);
+router.delete('/', requireSignin, isAdmin, deleteAllQualifications);
 
 export default router;

@@ -7,14 +7,18 @@ import {
   deleteContact,
   deleteAllContacts,
 } from '../controllers/contactController.js';
+import { requireSignin, isAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/', getContacts);
-router.get('/:id', getContactById);
+// ✅ Public route to submit contact
 router.post('/', createContact);
-router.put('/:id', updateContact);
-router.delete('/:id', deleteContact);
-router.delete('/', deleteAllContacts);
+
+// 🔐 Admin-only routes
+router.get('/', requireSignin, isAdmin, getContacts);
+router.get('/:id', requireSignin, isAdmin, getContactById);
+router.put('/:id', requireSignin, isAdmin, updateContact);
+router.delete('/:id', requireSignin, isAdmin, deleteContact);
+router.delete('/', requireSignin, isAdmin, deleteAllContacts);
 
 export default router;

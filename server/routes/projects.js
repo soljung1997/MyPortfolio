@@ -7,14 +7,18 @@ import {
   deleteProject,
   deleteAllProjects,
 } from '../controllers/projectController.js';
+import { requireSignin, isAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// Public
 router.get('/', getProjects);
 router.get('/:id', getProjectById);
-router.post('/', createProject);
-router.put('/:id', updateProject);
-router.delete('/:id', deleteProject);
-router.delete('/', deleteAllProjects);
+
+// Admin only
+router.post('/', requireSignin, isAdmin, createProject);
+router.put('/:id', requireSignin, isAdmin, updateProject);
+router.delete('/:id', requireSignin, isAdmin, deleteProject);
+router.delete('/', requireSignin, isAdmin, deleteAllProjects);
 
 export default router;

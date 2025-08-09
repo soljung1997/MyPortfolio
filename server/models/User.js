@@ -4,24 +4,30 @@ import crypto from 'crypto';
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
+    required: true,
     trim: true,
-    required: 'Name is required',
   },
   email: {
     type: String,
+    required: true,
+    unique: true,
     trim: true,
-    unique: 'Email already exists',
-    match: [/.+\@.+\..+/, 'Please fill a valid email address'],
-    required: 'Email is required',
   },
-  created: { type: Date, default: Date.now },
-  updated: { type: Date },
   hashed_password: {
     type: String,
-    required: 'Password is required',
+    required: true,
   },
   salt: String,
-});
+  role: {
+    type: String,
+    default: 'user',
+    enum: ['user', 'admin'],
+  },
+  created: {
+    type: Date,
+    default: Date.now,
+  },
+}, { timestamps: true });
 
 // Virtual field
 UserSchema.virtual('password')

@@ -1,0 +1,50 @@
+.add-qualification-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.add-qualification-container h2 {
+  font-size: 2rem;
+  color: #1f2937;
+  border-bottom: 2px solid #3b82f6;
+  margin-bottom: 1rem;
+}
+
+.add-qualification-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.add-qualification-form input,
+.add-qualification-form textarea {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+}
+
+.add-qualification-form button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.add-qualification-form button:hover {
+  background-color: #2563eb;
+}
+
+.success-message {
+  color: green;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}

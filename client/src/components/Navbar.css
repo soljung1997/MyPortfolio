@@ -38,3 +38,13 @@
   background-color: #1f6feb;
   color: white;
 }
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
