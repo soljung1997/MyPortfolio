@@ -1,35 +1,48 @@
-import { API_BASE } from './base';
+import { apiUrl } from './base';
 
-export const signup = async (user) => {
-  const res = await fetch(`${API_BASE}/api/auth/signup`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(user),
+const jsonFetch = async (url, options = {}) => {
+  const res = await fetch(url, {
+    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+    ...options,
   });
-  return res.json();
+
+  let data = null;
+  try {
+    data = await res.json();
+  } catch (_) {
+    // non-JSON response is fine; keep data = null
+  }
+
+  if (!res.ok) {
+    const msg = data?.error || data?.message || `HTTP ${res.status}`;
+    throw new Error(msg);
+  }
+  return data;
 };
 
-export const signin = async (user) => {
-  const res = await fetch(`${API_BASE}/api/auth/signin`, {
+export const signup = (user) =>
+  jsonFetch(apiUrl('/api/auth/signup'), {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(user),
   });
-  return res.json();
-};
+
+export const signin = (user) =>
+  jsonFetch(apiUrl('/api/auth/signin'), {
+    method: 'POST',
+    body: JSON.stringify(user),
+  });
+
+// If your server uses cookies for sessions, add: credentials: 'include'
+export const signout = () =>
+  jsonFetch(apiUrl('/api/auth/signout'), {
+    method: 'GET',
+  });
 
 export const authenticate = (data, next) => {
   if (typeof window !== 'undefined') {
     localStorage.setItem('jwt', JSON.stringify(data));
     if (typeof next === 'function') next();
   }
-};
-
-// Note: if your server sets cookies, include credentials here.
-// fetch(`${API_BASE}/api/auth/signout`, { method: 'GET', credentials: 'include' })
-export const signout = async () => {
-  const res = await fetch(`${API_BASE}/api/auth/signout`, { method: 'GET' });
-  return res.json();
 };
 
 export const isAuthenticated = () => {
