@@ -8,6 +8,11 @@ export default function Home() {
       <p>Hi, I'm Jee Won Jung. I'm a passionate software developer building modern, functional websites.</p>
       <p>Mission: To create clean, responsive, and user-friendly web applications.</p>
       <Link to="/about" className="btn">About Me</Link>
+
+      {/* NEW for CI/CD demo */}
+      <p className="ci-note" style={{ marginTop: '1rem', fontStyle: 'italic', color: '#2563eb' }}>
+        CI/CD Demo: This line was deployed automatically via GitHub → Vercel.
+      </p>
     </div>
   );
 }
